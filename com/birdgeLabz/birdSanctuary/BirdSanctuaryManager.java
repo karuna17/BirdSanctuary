@@ -1,14 +1,39 @@
 package com.birdgeLabz.birdSanctuary;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BirdSanctuaryManager {
+	Set<Birds> birdList = new HashSet<Birds>();
+	static	BirdSanctuaryManager birdSanctuary;
+/*
+	private BirdSanctuaryManager() {
+	}
 
-	List<Birds> birdList = new ArrayList<Birds>();
+	public static synchronized BirdSanctuaryManager getInstance() {
+		if(birdSanctuary == null) {
+			return birdSanctuary = new BirdSanctuaryManager();
+		}
+		return birdSanctuary;		
+	} */
 
-	public void add(Birds bird) {    
-		birdList.add(bird);
+	public void add(Birds bird) throws BirdSantuaryException {    
+		if(birdList.add(null)) {
+			throw new BirdSantuaryException();
+		}
+		else if(birdList.add(bird)) {
+			bird.incrementCount();
+			if(birdList.remove(null)) {
+				Birds.totalCount++;
+			}
+		}
+	}
+
+	public void remove(Birds bird) {
+		if(birdList.remove(bird)) {
+			bird.decrementCount();
+		}
 	}
 
 	public void print() {
@@ -18,24 +43,16 @@ public class BirdSanctuaryManager {
 	}
 
 	public void printFlyables() {
-		for(Birds bird: birdList) {
-			if(bird instanceof Flyable) {
-				((Flyable)bird).fly();
-			}
-		}
+		birdList.stream().filter(bird -> bird instanceof Flyable).forEach(bird -> ((Flyable)bird).fly());
 	}
 
-	public void printSwimmables() {      
-		for(Birds bird: birdList) {
-			if(bird instanceof Swimmable) {
-				((Swimmable)bird).swim();
-			}
-		}
+	public void printSwimmables() { 
+		birdList.stream().filter(bird -> bird instanceof Swimmable)
+		.collect(Collectors.toList()).forEach(bird -> ((Swimmable) bird).swim());
 	}
 
 	public void printEatables() {
-		for(Birds bird: birdList) {
-			bird.eat();
-		}
+		birdList.stream().forEach(bird -> bird.eat());
 	}
+
 }

@@ -1,12 +1,23 @@
 package com.birdgeLabz.birdSanctuary;
 
 public class Parrot extends Birds implements Flyable{
-	String id;
-	
+	static int count=0;
+
 	public Parrot(String id) {
 		this.id = id;
+		color = Color.GREEN;
+	}
+	
+	@Override
+	public void incrementCount() {
+		 count++;
 	}
 
+	@Override
+	public void decrementCount() {
+		count--;
+	}
+	
 	@Override
 	public void eat() {
 		System.out.println("parrot is eating");
@@ -16,10 +27,9 @@ public class Parrot extends Birds implements Flyable{
 	public void fly() {
 		System.out.println("parrot is flying");
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Parrot [id=" + id + "]";
-	}
-	
+		return "Parrot [id=" + id + ", color=" + color + "]";
+	}	
 }

@@ -2,12 +2,23 @@ package com.birdgeLabz.birdSanctuary;
 
 public class Duck extends Birds implements Flyable, Swimmable{
 	
-	String id;
+	static int count=0;
 	
 	public Duck(String id) {
 		this.id = id;
+		color = Color.WHITE;
+	}
+	
+	@Override
+	public void incrementCount() {
+		 count++;
 	}
 
+	@Override
+	public void decrementCount() {
+		count--;
+	}
+	
 	@Override
 	public void eat() {
 		System.out.println("Duck is eating");		
@@ -25,6 +36,6 @@ public class Duck extends Birds implements Flyable, Swimmable{
 
 	@Override
 	public String toString() {
-		return "Duck [id=" + id + "]";
+		return "Duck [id=" + id + ", color=" + color + "]";
 	}
 }
